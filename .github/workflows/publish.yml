@@ -1,0 +1,80 @@
+name: Publish
+
+on: workflow_dispatch
+
+jobs:
+  publish:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ['ubuntu-20.04', 'windows-2019', 'macos-13']
+    steps:
+      - name: Setup apt dependencies
+        if: matrix.os == 'ubuntu-20.04'
+        run: |
+          sudo apt update
+          sudo apt-get install --no-install-recommends -y libarchive-tools rpm
+
+      - name: Checkout git repo
+        uses: actions/checkout@v3
+
+      - name: Install Node, NPM and Yarn
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.17.1
+          cache: 'yarn'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # required for node gyp / serialport module
+      - name: Install setuptools
+        run: pip install setuptools
+
+      - name: Install dependencies
+        run: |
+          yarn install --prefer-offline --network-timeout 180000
+
+      - name: Publish Windows releases
+        if: matrix.os == 'windows-2019'
+        shell: powershell
+        env:
+          # These values are used for auto updates signing
+          # APPLE_ID: ${{ secrets.APPLE_ID }}
+          # APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
+          # CSC_LINK: ${{ secrets.CSC_LINK }}
+          # CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+          # This is used for uploading release assets to github
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          yarn build
+          yarn electron-builder --publish always --x64 --win
+
+      - name: Publish macOS releases
+        if: matrix.os == 'macos-13'
+        env:
+          # These values are used for auto updates signing
+          # APPLE_ID: ${{ secrets.APPLE_ID }}
+          # APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
+          # CSC_LINK: ${{ secrets.CSC_LINK }}
+          # CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+          # This is used for uploading release assets to github
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          yarn build
+          yarn electron-builder --publish always --x64 --mac
+
+      - name: Publish Linux releases
+        if: matrix.os == 'ubuntu-20.04'
+        env:
+          # These values are used for auto updates signing
+          # APPLE_ID: ${{ secrets.APPLE_ID }}
+          # APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
+          # CSC_LINK: ${{ secrets.CSC_LINK }}
+          # CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+          # This is used for uploading release assets to github
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          yarn build
+          yarn electron-builder --publish always --x64 --linux

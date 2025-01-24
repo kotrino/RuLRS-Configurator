@@ -1,0 +1,57 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: ['ubuntu-20.04', 'windows-2019', 'macos-latest']
+
+    steps:
+      - name: Setup apt dependencies
+        if: matrix.os == 'ubuntu-20.04'
+        run: |
+          sudo apt update
+          sudo apt-get install --no-install-recommends -y libarchive-tools rpm
+
+      - name: Checkout git repo
+        uses: actions/checkout@v3
+
+      - name: Install Node, NPM and Yarn
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.17.1
+          cache: 'yarn'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # required for node gyp / serialport module
+      - run: pip install setuptools
+
+      - name: Install dependencies
+        run: |
+          yarn install --network-timeout 180000
+
+      - name: yarn lint
+        run: |
+          yarn lint
+
+      - name: yarn package
+        run: |
+          yarn package
+
+      - name: yarn test
+        run: |
+          yarn test
