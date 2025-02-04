@@ -90,7 +90,8 @@ sudo udevadm trigger
 ```bash
 sudo usermod -a -G dialout $USER
 sudo usermod -a -G plugdev $USER
-```Для Arch-подобных систем может потребоваться добавить пользователя в группу uucp (а иногда и в lock):```bash
+```Для Arch-подобных систем может потребоваться добавить пользователя в группу uucp (а иногда и в lock):
+```bash
 sudo usermod -a -G uucp $USER
 sudo usermod -a -G lock $USER
 ```
@@ -100,7 +101,8 @@ sudo usermod -a -G lock $USER
 
 Подробности смотрите в [Выпуск № 26] (https://github.com/expresslrs/expresslrs-configurator/issues/26).
 
-В качестве обходного решения вручную установите необходимые пакеты:```bash
+В качестве обходного решения вручную установите необходимые пакеты:
+```bash
 # install missing sys packages
 sudo apt update
 sudo apt-get install gconf2 gconf-service python3-distutils
@@ -138,7 +140,8 @@ RuLRS Configurator переведён на несколько языков.
 
 ! [Результат компиляции] (docs/readme/screenshots/compile_result.jpg)
 
-## архитектура```
+## архитектура
+```
  - - - - - - - - - - - - - - - - - - - -
 |          RuLRS-Configurator           |
 |                   |                   |
