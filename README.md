@@ -192,3 +192,4 @@ yarn run gql-codegen
 <!--
 [! [Присоединяйтесь к сообществу!] (Docs/readme/cooler.png)] (https://github.com/expresslrs/expresslrs/wiki#community)
 -->
+Этот проект основан на [https://github.com/ExpressLRS/ExpressLRS-Configurator](https://github.com/ExpressLRS/ExpressLRS-Configurator)
