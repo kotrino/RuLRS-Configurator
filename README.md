@@ -1,11 +1,11 @@
-# ExpressLRS Configurator
+# RuLRS Configurator
 
 [! [Выпуск] ()] (https://github.com/kotrino/RuLRS-Configurator/releases)
 [! [Лицензия] ()] (https://github.com/kotrino/RuLRS-Configurator/blob/main/LICENSE)
 <!--[! [CHAT]
 [! [Открытые коллективные покровители]
 -->
-CompressLRS Configurator-это кроссплатформенное приложение для сборки и настройки прошивок
+RuLRS Configurator-это кроссплатформенное приложение для сборки и настройки прошивок
 [RuLRS] (https://github.com/kotrino/RuLRS-Configurator/), - полностью открытой RC-системы.
 
 <!--
