@@ -90,7 +90,8 @@ sudo udevadm trigger
 ```bash
 sudo usermod -a -G dialout $USER
 sudo usermod -a -G plugdev $USER
-```Для Arch-подобных систем может потребоваться добавить пользователя в группу uucp (а иногда и в lock):
+```
+Для Arch-подобных систем может потребоваться добавить пользователя в группу uucp (а иногда и в lock):
 ```bash
 sudo usermod -a -G uucp $USER
 sudo usermod -a -G lock $USER
